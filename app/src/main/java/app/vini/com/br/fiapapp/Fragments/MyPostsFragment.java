@@ -28,7 +28,7 @@ import butterknife.ButterKnife;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class PostsFragment extends Fragment {
+public class MyPostsFragment extends Fragment {
 
     @BindView(R.id.rvAnuncios)
     RecyclerView rvAnuncios;
@@ -41,7 +41,7 @@ public class PostsFragment extends Fragment {
     private PostAdapter anunciosAdapter;
     private ArrayList<Post> listaAnuncios;
 
-    public PostsFragment() {
+    public MyPostsFragment() {
         // Required empty public constructor
     }
 
@@ -50,7 +50,7 @@ public class PostsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_posts,container,false);
+        View view = inflater.inflate(R.layout.fragment_my_posts,container,false);
         ButterKnife.bind(this,view);
 
         context = container.getContext();

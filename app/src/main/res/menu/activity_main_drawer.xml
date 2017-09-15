@@ -12,10 +12,18 @@
         android:title="My posts" />
 
     <item
+        android:id="@+id/nav_map"
+        android:title="Mapa" />
+
+    <item
         android:id="@+id/nav_about"
         android:title="About" />
     <item
         android:id="@+id/nav_logout"
         android:title="Logout" />
+
+    <item
+        android:id="@+id/nav_exit"
+        android:title="Close App" />
 
 </menu>

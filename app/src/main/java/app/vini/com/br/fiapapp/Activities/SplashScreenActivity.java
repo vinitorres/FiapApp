@@ -11,8 +11,6 @@ import android.widget.ImageView;
 
 import com.google.firebase.auth.FirebaseAuth;
 
-import java.util.List;
-
 import app.vini.com.br.fiapapp.API.APIUtils;
 import app.vini.com.br.fiapapp.API.UserAPI;
 import app.vini.com.br.fiapapp.Model.User;
@@ -43,6 +41,8 @@ public class SplashScreenActivity extends AppCompatActivity {
 
         loadUser();
 
+        loadAnimation();
+
     }
 
     private void loadAnimation(){
@@ -71,7 +71,7 @@ public class SplashScreenActivity extends AppCompatActivity {
                     SplashScreenActivity.this.finish();
                 }
             }
-        },2000);
+        },3000);
 
     }
 
@@ -82,7 +82,6 @@ public class SplashScreenActivity extends AppCompatActivity {
             public void onResponse(Call<User> call, Response<User> response) {
                 if (response.isSuccessful()) {
                     Log.e("response:", response.body().toString());
-                    loadAnimation();
                 } else {
                     System.out.print(response.errorBody());
                 }

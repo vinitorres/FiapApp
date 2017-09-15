@@ -62,8 +62,7 @@ public class NewPostFragment extends Fragment {
     private ArrayList<Bitmap> listaImagens;
 
     public long idAnuncio;
-    public String latitude = "";
-    public String longitude = "";
+
     public ArrayList<String> listaUrl;
     private DatabaseHelper databaseHelper;
 
@@ -89,7 +88,7 @@ public class NewPostFragment extends Fragment {
 
         mAuth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
-        mDatabase = FirebaseDatabase.getInstance().getReference("Anuncios");
+        mDatabase = FirebaseDatabase.getInstance().getReference("Posts");
 
         mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
@@ -155,11 +154,9 @@ public class NewPostFragment extends Fragment {
 
             dataAnuncio = formattedDate;
 
-            listaUrl = databaseHelper.getUrls();
+            Post anuncio = new Post(uidUsuario, tituloAnuncio, generoAnimal, descricao, dataAnuncio);
 
-            Post anuncio = new Post(uidUsuario, tituloAnuncio, generoAnimal, descricao, dataAnuncio, latitude, longitude);
-
-            mDatabase.child("Anuncios").child(String.valueOf(idAnuncio)).setValue(anuncio);
+            mDatabase.child(String.valueOf(idAnuncio)).setValue(anuncio);
 
         }
 
@@ -168,9 +165,6 @@ public class NewPostFragment extends Fragment {
     public void limparTela(){
 
         ArrayList<String> coords = databaseHelper.getLocal();
-
-        latitude = coords.get(0);
-        longitude = coords.get(1);
 
         for (String url : listaUrl) {
             databaseHelper.removerImage(url);

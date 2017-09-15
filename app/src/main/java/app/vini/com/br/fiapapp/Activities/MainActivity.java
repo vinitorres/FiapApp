@@ -15,9 +15,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.google.android.gms.maps.MapFragment;
 import com.google.firebase.auth.FirebaseAuth;
 
 import app.vini.com.br.fiapapp.Fragments.AboutFragment;
+import app.vini.com.br.fiapapp.Fragments.MyPostsFragment;
 import app.vini.com.br.fiapapp.Fragments.NewPostFragment;
 import app.vini.com.br.fiapapp.Fragments.PostsFragment;
 import app.vini.com.br.fiapapp.Model.Post;
@@ -88,8 +90,10 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_new) {
             newFragment = new NewPostFragment();
         } else if (id == R.id.nav_my_posts) {
-
-        }  else if (id == R.id.nav_about) {
+            newFragment = new MyPostsFragment();
+        } else if (id == R.id.nav_map) {
+            newFragment = new MapFragment();
+        } else if (id == R.id.nav_about) {
             newFragment = new AboutFragment();
         } else if (id == R.id.nav_logout) {
 
@@ -98,12 +102,17 @@ public class MainActivity extends AppCompatActivity
             FirebaseAuth.getInstance().signOut();
 
 
+        } else if (id == R.id.nav_exit) {
+
+            System.exit(0);
+
         }
 
         if (logoutClicked == true) {
             Intent intent = new Intent(this, LoginActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
+            logoutClicked = false;
         } else {
             getFragmentManager().beginTransaction().replace(
                     R.id.content_main, newFragment)

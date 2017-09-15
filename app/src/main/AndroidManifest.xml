@@ -35,6 +35,10 @@
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".Activities.SignUpActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyD4K8UdBASOo_XE_Duft4L_U1bDVzUYxDc"/>
     </application>
 
 </manifest>
