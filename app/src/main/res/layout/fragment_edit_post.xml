@@ -66,7 +66,7 @@
         android:id="@+id/btn_anunciar"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:text="@string/create_post"
+        android:text="@string/save"
         android:background="@color/colorPrimary"
         android:textColor="@android:color/white" />
 

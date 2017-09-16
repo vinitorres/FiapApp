@@ -1,23 +1,25 @@
 package app.vini.com.br.fiapapp.Activities;
 
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.messaging.FirebaseMessaging;
 
-import app.vini.com.br.fiapapp.API.APIUtils;
-import app.vini.com.br.fiapapp.API.UserAPI;
-import app.vini.com.br.fiapapp.Model.User;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
 import app.vini.com.br.fiapapp.R;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 
 public class SplashScreenActivity extends AppCompatActivity {
@@ -27,8 +29,6 @@ public class SplashScreenActivity extends AppCompatActivity {
 
     FirebaseAuth auth;
 
-    private UserAPI mService;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,9 +37,22 @@ public class SplashScreenActivity extends AppCompatActivity {
 
         auth = FirebaseAuth.getInstance();
 
-        mService = APIUtils.getUserAPI();
+        FirebaseMessaging.getInstance().subscribeToTopic("android");
 
-        loadUser();
+        try {
+            PackageInfo info = getPackageManager().getPackageInfo(
+                    "com.facebook.samples.loginhowto",
+                    PackageManager.GET_SIGNATURES);
+            for (Signature signature : info.signatures) {
+                MessageDigest md = MessageDigest.getInstance("SHA");
+                md.update(signature.toByteArray());
+                Log.d("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
+            }
+        } catch (PackageManager.NameNotFoundException e) {
+
+        } catch (NoSuchAlgorithmException e) {
+
+        }
 
         loadAnimation();
 
@@ -74,26 +87,4 @@ public class SplashScreenActivity extends AppCompatActivity {
         },3000);
 
     }
-
-    private void loadUser(){
-
-        mService.getUser().enqueue(new Callback<User>() {
-            @Override
-            public void onResponse(Call<User> call, Response<User> response) {
-                if (response.isSuccessful()) {
-                    Log.e("response:", response.body().toString());
-                } else {
-                    System.out.print(response.errorBody());
-                }
-
-            }
-
-            @Override
-            public void onFailure(Call<User> call, Throwable t) {
-
-            }
-        });
-
-    }
-
 }

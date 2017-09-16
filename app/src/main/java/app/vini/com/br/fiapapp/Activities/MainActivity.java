@@ -1,12 +1,9 @@
 package app.vini.com.br.fiapapp.Activities;
 
-import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.view.View;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -15,15 +12,16 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.google.android.gms.maps.MapFragment;
+import com.facebook.login.LoginManager;
 import com.google.firebase.auth.FirebaseAuth;
 
 import app.vini.com.br.fiapapp.Fragments.AboutFragment;
+import app.vini.com.br.fiapapp.Fragments.MapFragment;
 import app.vini.com.br.fiapapp.Fragments.MyPostsFragment;
 import app.vini.com.br.fiapapp.Fragments.NewPostFragment;
 import app.vini.com.br.fiapapp.Fragments.PostsFragment;
-import app.vini.com.br.fiapapp.Model.Post;
 import app.vini.com.br.fiapapp.R;
+
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -49,7 +47,7 @@ public class MainActivity extends AppCompatActivity
         logoutClicked = false;
 
         Fragment firstFragment = new PostsFragment();
-        getFragmentManager().beginTransaction().replace(R.id.content_main,firstFragment).commit();
+        getSupportFragmentManager().beginTransaction().add(R.id.content_main,firstFragment).commit();
     }
 
     @Override
@@ -71,8 +69,6 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
-        int id = item.getItemId();
 
         return super.onOptionsItemSelected(item);
     }
@@ -100,7 +96,7 @@ public class MainActivity extends AppCompatActivity
             logoutClicked = true;
 
             FirebaseAuth.getInstance().signOut();
-
+            LoginManager.getInstance().logOut();
 
         } else if (id == R.id.nav_exit) {
 
@@ -112,11 +108,13 @@ public class MainActivity extends AppCompatActivity
             Intent intent = new Intent(this, LoginActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
+            finish();
             logoutClicked = false;
         } else {
-            getFragmentManager().beginTransaction().replace(
-                    R.id.content_main, newFragment)
-                    .commit();
+
+            getSupportFragmentManager().beginTransaction().replace(R.id.content_main, newFragment).commit();
+
+
         }
 
 

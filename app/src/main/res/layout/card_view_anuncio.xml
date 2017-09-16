@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:layout_marginBottom="4dp" >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,14 +16,17 @@
             android:id="@+id/tvTituloAnuncio"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:text="titulo" />
+            tools:text="@string/title"
+            android:textSize="17sp"
+            android:gravity="center"/>
 
         <TextView
             android:id="@+id/tvGeneroAnuncio"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="2dp"
-            tools:text="genero" />
+            android:textSize="15sp"
+            tools:text="@string/genre" />
 
         <TextView
             android:id="@+id/tvDescricaoAnuncio"
@@ -30,14 +34,17 @@
             android:layout_height="wrap_content"
             android:maxLines="3"
             android:paddingTop="2dp"
-            tools:text="descricao \nteste\n" />
+            android:textSize="15sp"
+            tools:text="@string/describe_details_such_as_lifetime_vaccination_castration" />
 
 
         <TextView
             android:id="@+id/tvDataAnuncio"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:text="data" />
+            tools:text="data"
+            android:gravity="end"
+            />
 
 
     </LinearLayout>

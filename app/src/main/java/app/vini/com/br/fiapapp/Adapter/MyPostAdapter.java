@@ -1,56 +1,66 @@
 package app.vini.com.br.fiapapp.Adapter;
 
-
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.net.Uri;
+import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.List;
 
+import app.vini.com.br.fiapapp.Activities.MainActivity;
+import app.vini.com.br.fiapapp.Fragments.EditPostFragment;
 import app.vini.com.br.fiapapp.Model.Post;
 import app.vini.com.br.fiapapp.R;
 
-
 /**
- * Created by Vini on 24/07/2017.
+ * Created by Vinicius on 16/09/17.
  */
 
-public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder> {
+public class MyPostAdapter extends RecyclerView.Adapter<MyPostAdapter.MyPostViewHolder> {
 
     private List<Post> listaPost;
+    MainActivity main;
 
-    public PostAdapter(List<Post> listaAnuncios) {
+
+    public MyPostAdapter(List<Post> listaAnuncios, MainActivity activity) {
+
         this.listaPost = listaAnuncios;
+        this.main = activity;
     }
 
-    public PostViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public MyPostViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View view = inflater.inflate(R.layout.card_view_anuncio, parent, false);
 
-        return new PostViewHolder(view);
+        return new MyPostViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(PostViewHolder holder, final int position) {
+    public void onBindViewHolder(MyPostViewHolder holder, final int position) {
 
-        String titulo = listaPost.get(position).titulo;
-        String genero = listaPost.get(position).genero;
-        String descricao = listaPost.get(position).descricao;
-        String data = listaPost.get(position).dataCriacao;
+        Post post = listaPost.get(position);
+
+        String titulo = post.titulo;
+        String genero = post.genero;
+        String descricao = post.descricao;
+        String data = post.dataCriacao;
+
+        String pushKey = post.pushKey;
 
         holder.tvTituloAnuncio.setText(titulo);
         holder.tvGeneroAnuncio.setText(genero);
         holder.tvDataAnuncio.setText(data);
         holder.tvDescricaoAnuncio.setText(descricao);
+        holder.pushKey = pushKey;
+        holder.post = post;
 
 
     }
@@ -61,15 +71,19 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
     }
 
 
-    public class PostViewHolder extends RecyclerView.ViewHolder {
+    public class MyPostViewHolder extends RecyclerView.ViewHolder {
 
-        ImageView imageView;
+        //ImageView imageView;
         TextView tvTituloAnuncio;
         TextView tvGeneroAnuncio;
         TextView tvDataAnuncio;
         TextView tvDescricaoAnuncio;
 
-        public PostViewHolder(final View itemView) {
+        String pushKey;
+
+        Post post;
+
+        public MyPostViewHolder(final View itemView) {
             super(itemView);
 
             tvTituloAnuncio = (TextView) itemView.findViewById(R.id.tvTituloAnuncio);
@@ -82,27 +96,30 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
                 public void onClick(View v) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(itemView.getContext());
                     builder.setMessage("Atenção")
-                            .setPositiveButton("Call", new DialogInterface.OnClickListener() {
+                            .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
-                                    Intent intent = new Intent(Intent.ACTION_DIAL);
-                                    intent.setData(Uri.parse("tel:11592342399"));
-                                    itemView.getContext().startActivity(intent);
+                                    DatabaseReference database = FirebaseDatabase.getInstance().getReference("Posts");
+
+                                    database.child(pushKey).removeValue();
+
                                 }
                             })
-                            .setNegativeButton("Share", new DialogInterface.OnClickListener() {
+                            .setNegativeButton("Edit", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
-                                    Intent whatsappIntent = new Intent(Intent.ACTION_SEND);
-                                    whatsappIntent.setType("text/plain");
-                                    whatsappIntent.setPackage("com.whatsapp");
-                                    whatsappIntent.putExtra(Intent.EXTRA_TEXT, "Venha conhecer o Posts");
-                                    try {
-                                        itemView.getContext().startActivity(whatsappIntent);
-                                    } catch (android.content.ActivityNotFoundException ex) {
-                                        Toast.makeText(itemView.getContext(),"Whatsapp have not been installed.", Toast.LENGTH_SHORT).show();
-                                    }
+
+                                    EditPostFragment editPostFragment = new EditPostFragment();
+
+                                    Bundle bundle = new Bundle();
+                                    bundle.putParcelable("Post", post);
+
+                                    editPostFragment.setArguments(bundle);
+
+                                    main.getSupportFragmentManager().beginTransaction().replace(
+                                            R.id.content_main, editPostFragment).addToBackStack(null).commit();
+
                                 }
                             });
-                    // Create the AlertDialog object and return it
+
                     AlertDialog dialog = builder.create();
                     dialog.show();
                 }

@@ -2,7 +2,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="app.vini.com.br.fiapapp.Fragments.MyPostsFragment">
+    tools:context="app.vini.com.br.fiapapp.Fragments.MyPostsFragment"
+    android:padding="8dp">
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"

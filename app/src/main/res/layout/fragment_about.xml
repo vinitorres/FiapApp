@@ -7,22 +7,22 @@
     tools:context="app.vini.com.br.fiapapp.Fragments.AboutFragment">
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@mipmap/ic_launcher"/>
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/pets"/>
 
     <TextView
         android:layout_marginTop="12dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="18sp"
-        android:text="Developer by: Vinicius Torres" />
+        android:text="@string/developer_by_vinicius_torres" />
 
     <TextView
         android:layout_marginTop="8dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="18sp"
-        android:text="Version: 1.0.0" />
+        android:text="@string/version_1_0_0" />
 
 </LinearLayout>

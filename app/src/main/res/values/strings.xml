@@ -1,11 +1,32 @@
 <resources>
-    <string name="app_name">Posts</string>
+    <string name="app_name">Adopt Me</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="facebook_app_id">353156385118458</string>
+    <string name="fb_login_protocol_scheme">fb353156385118458</string>
 
     <string name="action_settings">Settings</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="developer_by_vinicius_torres">Developer by: Vinicius Torres</string>
+    <string name="version_1_0_0">Version: 1.0.0</string>
+    <string name="sign_in">SIGN IN</string>
+    <string name="sign_up">SIGN UP</string>
+    <string name="type_your_password">Type your password</string>
+    <string name="type_your_email">Type your email address</string>
+    <string name="i_m_already_registered_i_want_to_log_in">I\'m already registered. I want to log in!</string>
+    <string name="title">Title</string>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
+    <string name="description">Description</string>
+    <string name="describe_details_such_as_lifetime_vaccination_castration">Describe details such as lifetime, vaccination, castration</string>
+    <string name="create_post">Create Post</string>
+    <string name="save">Save</string>
+    <string name="genre">genre</string>
+    <string name="create_post_ok">Post created with success. :)</string>
+
+
 </resources>

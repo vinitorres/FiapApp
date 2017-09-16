@@ -1,5 +1,6 @@
 package app.vini.com.br.fiapapp.Fragments;
 
+
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
@@ -9,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.RadioGroup;
-import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -28,11 +28,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-
 /**
  * A simple {@link Fragment} subclass.
  */
-public class NewPostFragment extends Fragment {
+public class EditPostFragment extends Fragment {
 
 
     @BindView(R.id.etTitulo)
@@ -41,19 +40,18 @@ public class NewPostFragment extends Fragment {
     EditText etDescricao;
     @BindView(R.id.rgGenero)
     RadioGroup rgGenero;
-    private ProgressDialog mProgressDialog;
 
     private Context context;
 
     public long idAnuncio;
 
-    public ArrayList<String> listaUrl;
 
+    public Post post;
 
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
 
-    public NewPostFragment() {
+    public EditPostFragment() {
         // Required empty public constructor
     }
 
@@ -61,14 +59,18 @@ public class NewPostFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_new_post, container, false);
+        View view = inflater.inflate(R.layout.fragment_edit_post, container, false);
         setRetainInstance(true);
         ButterKnife.bind(this, view);
         context = container.getContext();
 
-        getActivity().setTitle("New Post");
+        getActivity().setTitle("Edit Post");
 
-        mProgressDialog = new ProgressDialog(context);
+        Bundle bundle = getArguments();
+
+        post = bundle.getParcelable("Post");
+
+        loadOldValues();
 
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference("Posts");
@@ -93,8 +95,20 @@ public class NewPostFragment extends Fragment {
         return view;
     }
 
+    public void loadOldValues() {
+        etTitulo.setText(post.getTitulo());
+        etDescricao.setText(post.getDescricao());
+        rgGenero.getCheckedRadioButtonId();
+
+        if (post.getGenero().equals("M")) {
+            rgGenero.check(R.id.rb_macho);
+        } else {
+            rgGenero.check(R.id.rb_femea);
+        }
+    }
+
     @OnClick(R.id.btn_anunciar)
-    public void gerarAnuncio() {
+    public void updatePost() {
 
         if (etTitulo.getText().length() > 0) {
 
@@ -135,38 +149,21 @@ public class NewPostFragment extends Fragment {
 
             dataAnuncio = df.format(c.getTime());
 
-            String pushkey = String.valueOf(createRandomNumber(10));
+            Post anuncio = new Post(uidUsuario, tituloAnuncio, generoAnimal, descricao, dataAnuncio, post.pushKey);
 
-            Post anuncio = new Post(uidUsuario, tituloAnuncio, generoAnimal, descricao, dataAnuncio, pushkey);
+            mDatabase.child(post.pushKey).setValue(anuncio);
 
-            mDatabase.child(pushkey).setValue(anuncio);
-
-            Toast.makeText(getActivity(),getResources().getText(R.string.create_post_ok),Toast.LENGTH_SHORT).show();
-
-            limparTela();
+            back();
 
         }
 
     }
 
-    public void limparTela(){
+    public void back(){
 
-        etTitulo.setText("");
-        etDescricao.setText("");
-        rgGenero.clearCheck();
+        getFragmentManager().popBackStack();
+
     }
 
-    public final static String createRandomNumber(long len) {
-        if (len > 18)
-            throw new IllegalStateException("To many digits");
-        long tLen = (long) Math.pow(10, len - 1) * 9;
-
-        long number = (long) (Math.random() * tLen) + (long) Math.pow(10, len - 1) * 1;
-
-        String tVal = number + "";
-        if (tVal.length() != len) {
-            throw new IllegalStateException("The random number '" + tVal + "' is not '" + len + "' digits");
-        }
-        return tVal;
-    }
 }
+
