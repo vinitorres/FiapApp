@@ -3,27 +3,34 @@
 
     <item
         android:id="@+id/nav_posts"
-        android:title="Posts" />
+        android:title="Posts"
+        android:icon="@drawable/ic_art_track_black_24dp"/>
     <item
         android:id="@+id/nav_new"
-        android:title="Add Post" />
+        android:title="Add Post"
+        android:icon="@drawable/ic_note_add_black_24dp"/>
     <item
         android:id="@+id/nav_my_posts"
-        android:title="My posts" />
+        android:title="My posts"
+        android:icon="@drawable/ic_featured_play_list_black_24dp"/>
 
     <item
         android:id="@+id/nav_map"
-        android:title="Map" />
+        android:title="Map"
+        android:icon="@drawable/ic_map_black_24dp"/>
 
     <item
         android:id="@+id/nav_about"
-        android:title="About" />
+        android:title="About"
+        android:icon="@drawable/ic_info_outline_black_24dp"/>
     <item
         android:id="@+id/nav_logout"
-        android:title="Logout" />
+        android:title="Logout"
+        android:icon="@drawable/ic_power_settings_new_black_24dp"/>
 
     <item
         android:id="@+id/nav_exit"
-        android:title="Close App" />
+        android:title="Close App"
+        android:icon="@drawable/ic_close_black_24dp"/>
 
 </menu>

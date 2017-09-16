@@ -25,7 +25,7 @@
     <string name="describe_details_such_as_lifetime_vaccination_castration">Describe details such as lifetime, vaccination, castration</string>
     <string name="create_post">Create Post</string>
     <string name="save">Save</string>
-    <string name="genre">genre</string>
+    <string name="genre">genre:</string>
     <string name="create_post_ok">Post created with success. :)</string>
 
 
